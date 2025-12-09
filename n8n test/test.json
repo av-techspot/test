@@ -1,0 +1,146 @@
+{
+  "name": "test",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFile",
+        "fileToWatch": {
+          "__rl": true,
+          "value": "https://drive.google.com/file/d/1FOkCyVvJuRzjXQk6YeW2eTnNioVwR_oZ/view?usp=sharing",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -192,
+        0
+      ],
+      "id": "880669bc-9fba-4d89-9fec-69765af93809",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "s5nliO2WQC2TcLhz",
+          "name": "Google Drive"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "4f30c6c2-9738-47e0-9510-c18884c0e663",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "https://drive.google.com/file/d/1FOkCyVvJuRzjXQk6YeW2eTnNioVwR_oZ/view?usp=sharing",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        16,
+        0
+      ],
+      "id": "edc62a8c-f464-4e0d-a855-d90e95424a76",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "s5nliO2WQC2TcLhz",
+          "name": "Google Drive"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "173809062",
+        "text": "={{ $json.data }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        432,
+        0
+      ],
+      "id": "d45c645b-585e-41d9-b9d0-c01f5e362a2b",
+      "name": "Send a text message",
+      "webhookId": "5ee48b1b-3c13-4c31-986e-1dae1093fe53",
+      "credentials": {
+        "telegramApi": {
+          "id": "moNkDJLLH69xmY3c",
+          "name": "TestBot"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7ba9bae0-416c-4cbd-9fcc-62c9a65084d1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6a0c7f85c9b314f5026d59ae8353f26fd42d3c25629e0d02c7693d0e5a98cdea"
+  },
+  "id": "DIWtpvZE4WPuJDGv",
+  "tags": []
+}
